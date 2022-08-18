@@ -20,6 +20,7 @@
       "forceConsistentCasingInFileNames": true,
       "moduleResolution": "node",
       "sourceMap": true,
-      "resolveJsonModule": true
+      "resolveJsonModule": true,
+      "declaration": true
     }
   }

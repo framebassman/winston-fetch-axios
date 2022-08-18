@@ -57,3 +57,7 @@ export class AxiosTransport extends Transport {
     callback();
   }
 }
+
+module.exports = {
+  AxiosTransport,
+};
