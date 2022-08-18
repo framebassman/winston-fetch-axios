@@ -6,6 +6,10 @@
   "scripts": {
     "build": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aerilym/winston-axios.git"
+  },
   "keywords": [
     "winston",
     "axios",
@@ -15,6 +19,10 @@
   ],
   "author": "Ryan Miller <aerilymbiz@gmail.com> (https://github.com/Aerilym)",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aerilym/winston-axios/issues"
+  },
+  "homepage": "https://github.com/Aerilym/winston-axios",
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
     "ts-node": "^10.9.1",
