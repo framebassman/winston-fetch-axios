@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const AxiosTransport = require('../lib/index.js');
+const { AxiosTransport } = require('../lib/index.js');
 const winston = require('winston');
 
 class AuthResponse {
@@ -78,7 +78,7 @@ try {
     level: 'info',
     format: winston.format.json(),
     transports: [
-      new AxiosTransport.AxiosTransport({
+      new AxiosTransport({
         level: 'info',
         auth: config.auth,
         host: config.host,
@@ -90,3 +90,16 @@ try {
 } catch (error) {
   throw error;
 }
+
+// Create a logger instance with custom settings
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new AxiosTransport({
+      host: 'http://localhost:9999/',
+      path: 'log',
+      auth: 'abc123',
+    }),
+  ],
+});

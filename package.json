@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc",
     "test": "node test/test.js",
+    "docs": "jsdoc2md docs/jsdoc.js > docs/jsdoc.md",
     "deploy:test": "npm run build && npm run test",
     "deploy:prod": "npm run build && npm run test && npm publish"
   },
@@ -29,6 +30,7 @@
   "homepage": "https://github.com/Aerilym/winston-axios",
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
+    "jsdoc-to-markdown": "^7.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4"
   },
