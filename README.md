@@ -4,6 +4,18 @@ An axios transport for winston which allows for sending REST requests to an exte
 
 ## Usage
 
+### Setup
+
+```JavaScript
+const { AxiosTransport } = require('winston-axios');
+```
+
+or
+
+```TypeScript
+import { AxiosTransport } from 'winston-axios';
+```
+
 ### Create a logger with an Axios Transport
 
 ```JavaScript
@@ -15,8 +27,8 @@ const logger = winston.createLogger({
   format: winston.format.json(),
   transports: [
     new AxiosTransport({
-      host: 'http://localhost:9999/',
-      path: 'log',
+      url: 'http://localhost:9999',
+      path: '/log',
       auth: 'abc123',
     }),
   ],
@@ -30,12 +42,16 @@ const { AxiosTransport } = require('winston-axios');
 
 logger.add(
   new AxiosTransport({
-    host: 'http://localhost:9999/',
-    path: 'log',
-    auth: 'abc123',
+    host: 'http://localhost:9999/log'
   })
 );
 ```
+
+### Receiving the log message
+
+You can simply use `logger.info(request.body);` to log the request in the external API as Winston can resolve the body.
+
+More information on body formatting is to come.
 
 ## Documentation
 
