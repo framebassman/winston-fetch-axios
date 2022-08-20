@@ -1,5 +1,9 @@
 # Winston-Axios
 
+[![Build](https://github.com/Aerilym/winston-axios/actions/workflows/build.yml/badge.svg)](https://github.com/Aerilym/winston-axios/actions/workflows/build.yml)
+[![npm version](https://badge.fury.io/js/winston-axios.svg)](https://badge.fury.io/js/winston-axios)
+[![Known Vulnerabilities](https://snyk.io/test/github/aerilym/winston-axios/badge.svg)](https://snyk.io/test/github/aerilym/winston-axios)
+
 An axios transport for winston which allows for sending REST requests to an external API.
 
 ## Usage
