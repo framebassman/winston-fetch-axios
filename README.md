@@ -57,6 +57,44 @@ You can simply use `logger.info(request.body);` to log the request in the extern
 
 More information on body formatting is to come.
 
+## Example
+
+A production example of using this transport is available here: [photoprism-helper logger.ts](https://github.com/Aerilym/photoprism-helper/tree/master/src/logger.ts)
+
+Here is the relevant code, omitting anything not relevant to the transport:
+
+```TypeScript
+import { createLogger, transports } from 'winston';
+import { AxiosTransport } from 'winston-axios';
+
+const config = {
+  levelConsole: 'info',
+  url: 'http://apiurl.com'
+  key: 'abc123'
+}
+//.code here.//
+
+// Create a logger instance with custom settings
+export const logger = createLogger({
+  transports: [
+    new transports.Console({ level: config.levelConsole }),
+    //.code here.//
+  ],
+    //.code here.//
+});
+
+//.code here.//
+
+// Add an Axios transport to the logger instance
+logger.add(
+  new AxiosTransport({
+    url: config.url,
+    path: '/log',
+    auth: config.key,
+  })
+);
+```
+
 ## Documentation
 
 <dl>
