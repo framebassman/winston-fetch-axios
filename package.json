@@ -5,7 +5,10 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "node test/test.js",
+    "deploy:test": "npm run build && npm run test",
+    "deploy:prod": "npm run build && npm run test && npm publish"
   },
   "repository": {
     "type": "git",
