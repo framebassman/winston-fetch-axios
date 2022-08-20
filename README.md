@@ -1,6 +1,6 @@
 # Winston-Axios
 
-WIP
+An axios transport for winston which allows for sending REST requests to an external API.
 
 ## Usage
 
@@ -56,8 +56,8 @@ Options for Axios Transport.
 
 | Param    | Type                             | Description                                                                                         |
 | -------- | -------------------------------- | --------------------------------------------------------------------------------------------------- |
-| host     | <code>string</code>              | The host to send the logs to.                                                                       |
-| path     | <code>string</code>              | The path to send the logs to. This will resolve to host + path.                                     |
+| url      | <code>string</code>              | The url to send the logs to.                                                                        |
+| path     | <code>string</code>              | The path to send the logs to. The destination url will resolve to url + path.                       |
 | auth     | <code>string</code>              | The authentication token to send with the logs. Will override any auth headers provided in headers. |
 | authType | <code>TransportAuthType</code>   | The type of authentication to use.                                                                  |
 | method   | <code>TransportMethod</code>     | The method to use when sending the logs.                                                            |
@@ -72,7 +72,7 @@ Transport for Winston that sends log messages to a remote server using Axios.
 **See**: [AxiosTransportOptions](#AxiosTransportOptions)  
 <a name="new_AxiosTransport_new"></a>
 
-### new exports.AxiosTransport(options)
+### new AxiosTransport(options)
 
 | Param   | Type                                                         | Description                    |
 | ------- | ------------------------------------------------------------ | ------------------------------ |
@@ -84,7 +84,7 @@ Transport for Winston that sends log messages to a remote server using Axios.
 const logger = createLogger({
   transports: [
     new AxiosTransport({
-      host: 'http://localhost:3000',
+      url: 'http://localhost:3000',
       path: '/logs',
     }),
   ],

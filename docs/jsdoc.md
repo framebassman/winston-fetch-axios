@@ -17,12 +17,12 @@ Options for Axios Transport.
 **Kind**: global class  
 <a name="new_AxiosTransportOptions_new"></a>
 
-### new AxiosTransportOptions(host, path, auth, authType, method, headers)
+### new AxiosTransportOptions(url, path, auth, authType, method, headers)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| host | <code>string</code> | The host to send the logs to. |
-| path | <code>string</code> | The path to send the logs to. This will resolve to host + path. |
+| url | <code>string</code> | The url to send the logs to. |
+| path | <code>string</code> | The path to send the logs to. The destination url will resolve to url + path. |
 | auth | <code>string</code> | The authentication token to send with the logs. Will override any auth headers provided in [headers](headers). |
 | authType | <code>TransportAuthType</code> | The type of authentication to use. |
 | method | <code>TransportMethod</code> | The method to use when sending the logs. |
@@ -45,5 +45,5 @@ Transport for Winston that sends log messages to a remote server using Axios.
 
 **Example**  
 ```js
-const logger = createLogger({  transports: [    new AxiosTransport({      host: 'http://localhost:3000',      path: '/logs'    }),  ],});logger.log({ level: 'info', message: 'Hello World' });
+const logger = createLogger({  transports: [    new AxiosTransport({      url: 'http://localhost:3000',      path: '/logs'    }),  ],});logger.log({ level: 'info', message: 'Hello World' });
 ```

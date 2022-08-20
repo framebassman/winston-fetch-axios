@@ -32,7 +32,7 @@ interface AxiosTransportOptions extends Transport.TransportStreamOptions {
  * const logger = createLogger({
  *   transports: [
  *     new AxiosTransport({
- *       host: 'http://localhost:3000',
+ *       url: 'http://localhost:3000',
  *       path: '/logs'
  *     }),
  *   ],

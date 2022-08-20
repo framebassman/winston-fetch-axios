@@ -1,7 +1,7 @@
 /**
  * Options for Axios Transport.
- * @param {string} host - The host to send the logs to.
- * @param {string} path - The path to send the logs to. This will resolve to host + path.
+ * @param {string} url - The url to send the logs to.
+ * @param {string} path - The path to send the logs to. The destination url will resolve to url + path.
  * @param {string} auth - The authentication token to send with the logs. Will override any auth headers provided in {@link headers}.
  * @param {TransportAuthType} authType - The type of authentication to use.
  * @param {TransportMethod} method - The method to use when sending the logs.
@@ -17,7 +17,7 @@ class AxiosTransportOptions extends Transport.TransportStreamOptions {}
  * const logger = createLogger({
  *   transports: [
  *     new AxiosTransport({
- *       host: 'http://localhost:3000',
+ *       url: 'http://localhost:3000',
  *       path: '/logs'
  *     }),
  *   ],
