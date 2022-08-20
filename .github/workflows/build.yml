@@ -28,14 +28,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      # Compiles the typescript
-      - name: Typescript compiler
-        uses: iCrawl/action-tsc@v1
-
-      # Runs a set of commands using the runners shell
-      - name: Start application
-        run: yarn build
-
       # Runs tests
       - name: Deployment Test Pipeline
         run: yarn deploy:test
