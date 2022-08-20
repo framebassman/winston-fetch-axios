@@ -20,6 +20,7 @@ interface AxiosTransportOptions extends Transport.TransportStreamOptions {
   authType?: TransportAuthType;
   method?: TransportMethod;
   headers?: AxiosRequestHeaders;
+  bodyAddons?: object;
   host?: string; // @deprecated use url instead
   replacer?: (key: string, value: any) => any;
 }
@@ -46,6 +47,7 @@ export class AxiosTransport extends Transport {
   authType?: TransportAuthType;
   method?: TransportMethod;
   headers?: AxiosRequestHeaders;
+  bodyAddons?: object;
 
   constructor(opts: AxiosTransportOptions) {
     super(opts);
@@ -55,6 +57,7 @@ export class AxiosTransport extends Transport {
     this.authType = opts.authType || undefined;
     this.method = opts.method || 'POST';
     this.headers = opts.headers || undefined;
+    this.bodyAddons = opts.bodyAddons || undefined;
   }
 
   log(info: any, callback: () => void) {
@@ -73,6 +76,10 @@ export class AxiosTransport extends Transport {
         resolvedPath = '/' + resolvedPath;
       }
       resolvedUrl = resolvedUrl + resolvedPath;
+    }
+
+    if (this.bodyAddons) {
+      info = { ...info, ...this.bodyAddons };
     }
 
     let axiosConfig: AxiosRequestConfig<any> = {
