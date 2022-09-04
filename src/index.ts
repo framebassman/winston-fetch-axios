@@ -78,10 +78,12 @@ export class AxiosTransport extends Transport {
       resolvedUrl = resolvedUrl + resolvedPath;
     }
 
+    // Add body addons to the request body if they exist.
     if (this.bodyAddons) {
       info = { ...info, ...this.bodyAddons };
     }
 
+    // Create the request config.
     let axiosConfig: AxiosRequestConfig<any> = {
       method: this.method,
       url: resolvedUrl,
@@ -127,6 +129,7 @@ export class AxiosTransport extends Transport {
       }
     }
 
+    // Send the request.
     axios(axiosConfig)
       .then(function (response) {
         return response;
