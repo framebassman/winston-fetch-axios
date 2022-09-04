@@ -49,15 +49,15 @@ export class AxiosTransport extends Transport {
   headers?: AxiosRequestHeaders;
   bodyAddons?: object;
 
-  constructor(opts: AxiosTransportOptions) {
+  constructor(opts: AxiosTransportOptions = {}) {
     super(opts);
     this.url = opts.url || opts.host || 'http://localhost:80';
-    this.path = opts.path || undefined;
-    this.auth = opts.auth || undefined;
-    this.authType = opts.authType || undefined;
+    this.path = opts.path;
+    this.auth = opts.auth;
+    this.authType = opts.authType;
     this.method = opts.method || 'POST';
-    this.headers = opts.headers || undefined;
-    this.bodyAddons = opts.bodyAddons || undefined;
+    this.headers = opts.headers;
+    this.bodyAddons = opts.bodyAddons;
   }
 
   log(info: any, callback: () => void) {
