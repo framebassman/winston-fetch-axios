@@ -8,7 +8,7 @@
     "build": "tsc",
     "test": "node test/test.js",
     "docs": "jsdoc2md docs/jsdoc.js > docs/jsdoc.md",
-    "deploy:test": "pnpm build && pnpm test"
+    "deploy:test": "npm run build && npm run test"
   },
   "repository": {
     "type": "git",
