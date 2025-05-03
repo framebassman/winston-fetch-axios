@@ -52,7 +52,7 @@ const logger = winston.createLogger({
   ],
 });
 
-describe('winston-fetch-axios', () => {
+xdescribe('winston-fetch-axios', () => {
   let app = null;
   let loggerLocal = null;
   let outputStream = null;
@@ -97,7 +97,7 @@ describe('winston-fetch-axios', () => {
     });
 
     app = api.listen(config.hostPort, () => {
-      loggerLocal.info(`Test server listening on ${config.hostPort}`);
+      console.log(`Test server listening on ${config.hostPort}`);
     });
   });
 

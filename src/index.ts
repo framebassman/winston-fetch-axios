@@ -53,9 +53,9 @@ export class AxiosTransport extends Transport {
 
   constructor(opts: AxiosTransportOptions = {}) {
     super(opts);
-    this.axiosInstance = axios.create({
-      adapter: 'fetch'
-    });
+    this.axiosInstance = axios.create(
+      // { adapter: 'fetch' }
+    );
     this.url = opts.url || opts.host || 'http://localhost:80';
     this.path = opts.path;
     this.auth = opts.auth;
@@ -65,10 +65,10 @@ export class AxiosTransport extends Transport {
     this.bodyAddons = opts.bodyAddons;
   }
 
-  log(info: any, callback: () => void) {
-    setImmediate(() => {
-      this.emit('logged', info);
-    });
+  async log(info: any, callback: () => void) {
+    // setImmediate(() => {
+    //   this.emit('logged', info);
+    // });
 
     // Resolve the destination url.
     let resolvedUrl = this.url;
@@ -138,18 +138,16 @@ export class AxiosTransport extends Transport {
     console.log('Send the request with the following config:');
     console.log(axiosConfig);
     console.log(JSON.stringify(axiosConfig));
-    this.axiosInstance(axiosConfig)
-      .then(function (response) {
-        console.log('The response was:');
-        console.log(response);
-        console.log('Then call the callback');
-        return callback();
-      })
-      .catch(function (error) {
-        console.warn('There was an error after the sending the request')
-        console.warn(error)
-        return callback();
-      });
+
+    try {
+      await this.axiosInstance.post(String(axiosConfig.url), axiosConfig.data, axiosConfig);
+      // await this.axiosInstance(axiosConfig);
+      this.emit("logged", info);
+    } catch (err) {
+      this.emit("error", err);
+    } finally {
+      callback();
+    }
   }
 }
 
