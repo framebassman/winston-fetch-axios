@@ -1,6 +1,6 @@
 {
   "name": "winston-fetch-axios",
-  "version": "1.7.12",
+  "version": "1.7.13",
   "description": "An axios transport for winston which allows for sending REST requests to an external API",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

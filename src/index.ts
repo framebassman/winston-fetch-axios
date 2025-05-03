@@ -145,6 +145,7 @@ export class AxiosTransport extends Transport {
     } catch (err) {
       this.emit("error", err);
     } finally {
+      console.log('Callback should be fired here');
       callback();
     }
   }
