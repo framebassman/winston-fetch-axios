@@ -14,7 +14,6 @@ type TransportMethod = 'POST' | 'PUT';
  * @param {AxiosRequestHeaders} headers - The headers to send with the logs.
  */
 interface AxiosTransportOptions extends Transport.TransportStreamOptions {
-  axiosInstance: AxiosInstance;
   url?: string;
   path?: string;
   auth?: string;
@@ -52,9 +51,11 @@ export class AxiosTransport extends Transport {
   bodyAddons?: object;
   
 
-  constructor(opts: AxiosTransportOptions = { axiosInstance: axios.create() }) {
+  constructor(opts: AxiosTransportOptions = { }) {
     super(opts);
-    this.axiosInstance = opts.axiosInstance;
+    this.axiosInstance = axios.create(
+      { adapter: 'fetch' }
+    )
     this.url = opts.url || opts.host || 'http://localhost:80';
     this.path = opts.path;
     this.auth = opts.auth;
@@ -65,10 +66,6 @@ export class AxiosTransport extends Transport {
   }
 
   async log(info: any, callback: () => void) {
-    // setImmediate(() => {
-    //   this.emit('logged', info);
-    // });
-
     // Resolve the destination url.
     let resolvedUrl = this.url;
     if (this.path) {
@@ -141,8 +138,8 @@ export class AxiosTransport extends Transport {
     console.log(JSON.stringify(axiosConfig));
 
     try {
-      await this.axiosInstance.post(String(axiosConfig.url), axiosConfig.data, axiosConfig);
-      // await this.axiosInstance(axiosConfig);
+      // await this.axiosInstance.post(String(axiosConfig.url), axiosConfig.data, axiosConfig);
+      await this.axiosInstance(axiosConfig);
       this.emit("logged", info);
     } catch (err) {
       this.emit("error", err);

@@ -1,4 +1,3 @@
-const { createLogger } = require('winston');
 const axios = require('axios');;
 
 jest.mock("axios");
@@ -11,7 +10,6 @@ const { AxiosTransport } = require('../lib/index.js');
 describe('AxiosTransport with mocks', () => {
   let fakeSlackHook;
   const fakeOpts  = {
-    axiosInstance: axios.create(),
     level: 'info',
     auth: 'testkey',
     host: 'localhost',

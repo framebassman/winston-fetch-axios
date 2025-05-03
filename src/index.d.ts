@@ -1,1 +1,1 @@
-declare module 'winston-axios';
+declare module 'winston-fetch-axios';
