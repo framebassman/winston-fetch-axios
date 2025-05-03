@@ -135,15 +135,21 @@ export class AxiosTransport extends Transport {
     }
 
     // Send the request.
+    console.log('Send the request with the following config:');
+    console.log(axiosConfig);
+    console.log(JSON.stringify(axiosConfig));
     this.axiosInstance(axiosConfig)
       .then(function (response) {
-        return response;
+        console.log('The response was:');
+        console.log(response);
+        console.log('Then call the callback');
+        return callback();
       })
       .catch(function (error) {
-        return error;
+        console.warn('There was an error after the sending the request')
+        console.warn(error)
+        return callback();
       });
-
-    callback();
   }
 }
 

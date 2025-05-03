@@ -9,7 +9,6 @@
       "program": "${workspaceFolder}/test/node_modules/.bin/jest",
       "args": ["${fileBasenameNoExtension}"],
       "console": "integratedTerminal",
-      "disableOptimisticBPs": true,
       "windows": {
         "program": "${workspaceFolder}/test/node_modules/jest/bin/jest"
       }
