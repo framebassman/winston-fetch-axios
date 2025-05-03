@@ -14,6 +14,7 @@ type TransportMethod = 'POST' | 'PUT';
  * @param {AxiosRequestHeaders} headers - The headers to send with the logs.
  */
 interface AxiosTransportOptions extends Transport.TransportStreamOptions {
+  axiosInstance: AxiosInstance;
   url?: string;
   path?: string;
   auth?: string;
@@ -51,11 +52,9 @@ export class AxiosTransport extends Transport {
   bodyAddons?: object;
   
 
-  constructor(opts: AxiosTransportOptions = {}) {
+  constructor(opts: AxiosTransportOptions = { axiosInstance: axios.create() }) {
     super(opts);
-    this.axiosInstance = axios.create(
-      // { adapter: 'fetch' }
-    );
+    this.axiosInstance = opts.axiosInstance;
     this.url = opts.url || opts.host || 'http://localhost:80';
     this.path = opts.path;
     this.auth = opts.auth;

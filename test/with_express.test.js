@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { AxiosTransport } = require('../lib/index.js');
 const winston = require('winston');
 const stream = require('stream');
+const { default: axios } = require('axios');
 
 class AuthResponse {
   constructor(success, message) {
@@ -45,6 +46,7 @@ const logger = winston.createLogger({
   format: winston.format.json(),
   transports: [
     new AxiosTransport({
+      axiosInstance: axios.create(),
       host: 'http://localhost:9999/',
       path: 'log',
       auth: 'abc123',
@@ -107,6 +109,7 @@ xdescribe('winston-fetch-axios', () => {
       format: winston.format.json(),
       transports: [
         new AxiosTransport({
+          axiosInstance: axios.create(),
           level: 'info',
           auth: config.auth,
           host: config.host,
