@@ -27,12 +27,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          corepack enable
-          yarn install
+          npm install
           cd test
-          yarn install
+          npm install
           cd ../
 
       # Runs tests
       - name: Deployment Test Pipeline
-        run: yarn deploy:test
+        run: npm run deploy:test

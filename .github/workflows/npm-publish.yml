@@ -20,14 +20,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          corepack enable
-          yarn install
+          npm install
           cd test
-          yarn install
+          npm install
           cd ../
 
       - name: Deployment Test Pipeline
-        run: yarn deploy:test
+        run: npm run deploy:test
 
   publish-npm:
     needs: build
@@ -41,11 +40,11 @@ jobs:
       - run: npm ci
       - run: |
           corepack enable
-          yarn install
+          npm install
           cd test
-          yarn install
+          npm install
           cd ../
-      - run: yarn build
+      - run: npm run build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
