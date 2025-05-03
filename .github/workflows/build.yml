@@ -25,14 +25,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
-      - uses: pnpm/action-setup@v4
-
       - name: Install dependencies
         run: |
+          corepack enable
           yarn install
           cd test
           yarn install
