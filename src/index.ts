@@ -1,5 +1,5 @@
 import Transport from 'winston-transport';
-import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 
 type TransportAuthType = 'bearer' | 'apikey' | 'basic' | 'custom' | 'none';
 type TransportMethod = 'POST' | 'PUT';
@@ -41,6 +41,7 @@ interface AxiosTransportOptions extends Transport.TransportStreamOptions {
  * logger.log({ level: 'info', message: 'Hello World' });
  */
 export class AxiosTransport extends Transport {
+  axiosInstance: AxiosInstance;
   url: string;
   path?: string;
   auth?: string;
@@ -48,9 +49,13 @@ export class AxiosTransport extends Transport {
   method?: TransportMethod;
   headers?: AxiosRequestHeaders;
   bodyAddons?: object;
+  
 
   constructor(opts: AxiosTransportOptions = {}) {
     super(opts);
+    this.axiosInstance = axios.create({
+      adapter: 'fetch'
+    });
     this.url = opts.url || opts.host || 'http://localhost:80';
     this.path = opts.path;
     this.auth = opts.auth;
@@ -130,7 +135,7 @@ export class AxiosTransport extends Transport {
     }
 
     // Send the request.
-    axios(axiosConfig)
+    this.axiosInstance(axiosConfig)
       .then(function (response) {
         return response;
       })
