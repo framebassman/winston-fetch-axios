@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const { AxiosTransport } = require('../lib/index.js');
 const winston = require('winston');
+const stream = require('stream');
 
 class AuthResponse {
   constructor(success, message) {
@@ -39,59 +40,6 @@ const config = {
 
 config.host = config.host + config.hostPort;
 
-const loggerLocal = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.simple(),
-    }),
-  ],
-});
-
-// const api = express();
-// api.use(bodyParser.urlencoded({ extended: true }));
-// api.use(bodyParser.json());
-// api.use(bodyParser.raw());
-
-// api.use(function (req, res, next) {
-//   validateAuth(req, config.auth).then((authOutcome) => {
-//     if (!authOutcome.success) {
-//       throw authOutcome.message;
-//     }
-//     next();
-//   });
-// });
-
-// api.post(config.path, async (req, res) => {
-//   loggerLocal.info(req.body);
-//   process.exit(0);
-// });
-
-// api.listen(config.hostPort, () => {
-//   loggerLocal.info(`Test server listening on ${config.hostPort}`);
-// });
-
-// try {
-//   // Create a logger instance with custom settings
-//   const loggerAxios = winston.createLogger({
-//     level: 'info',
-//     format: winston.format.json(),
-//     transports: [
-//       new AxiosTransport({
-//         level: 'info',
-//         auth: config.auth,
-//         host: config.host,
-//         path: config.path,
-//       }),
-//     ],
-//   });
-//   loggerAxios.info('TESTMESSAGE');
-// } catch (error) {
-//   throw error;
-// }
-
-// Create a logger instance with custom settings
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
@@ -106,8 +54,30 @@ const logger = winston.createLogger({
 
 describe('winston-fetch-axios', () => {
   let app = null;
+  let loggerLocal = null;
+  let outputStream = null;
+  let output = '';
 
   beforeAll(() => {
+    outputStream = new stream.Writable()
+    outputStream._write = (chunk, encoding, next) => {
+      output += chunk.toString();
+      next();
+    };
+
+    loggerLocal = winston.createLogger({
+      level: 'info',
+      format: winston.format.json(),
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.simple(),
+        }),
+        new winston.transports.Stream({
+          stream: outputStream
+        })
+      ],
+    });
+
     const api = express();
     api.use(bodyParser.urlencoded({ extended: true }));
     api.use(bodyParser.json());
@@ -124,7 +94,6 @@ describe('winston-fetch-axios', () => {
 
     api.post(config.path, async (req, res) => {
       loggerLocal.info(req.body);
-      process.exit(0);
     });
 
     app = api.listen(config.hostPort, () => {
@@ -132,12 +101,24 @@ describe('winston-fetch-axios', () => {
     });
   });
 
-  afterAll(async () => {
-    await new Promise((resolve) => setTimeout(() => resolve(), 500)); // avoid jest open handle error
-    app.close();
-  })
-
   it('works', () => {
-    expect(1 + 2).toBe(3);
+    const loggerAxios = winston.createLogger({
+      level: 'info',
+      format: winston.format.json(),
+      transports: [
+        new AxiosTransport({
+          level: 'info',
+          auth: config.auth,
+          host: config.host,
+          path: config.path,
+        }),
+      ],
+    });
+    loggerAxios.info('TESTMESSAGE');
+
+    const logEvents = output.trim().split('\n')
+
+    outputStream.destroy();
+    app.close();
   })
 });
