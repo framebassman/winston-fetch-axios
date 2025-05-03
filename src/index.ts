@@ -86,6 +86,8 @@ export class AxiosTransport extends Transport {
     if (this.bodyAddons) {
       info = { ...info, ...this.bodyAddons };
     }
+    info['@timestamp'] = info.timestamp;
+    delete info.timestamp;
 
     // Create the request config.
     let axiosConfig: AxiosRequestConfig<any> = {
