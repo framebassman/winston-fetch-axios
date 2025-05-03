@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "node test/test.js",
+    "test": "npm --prefix test test",
     "docs": "jsdoc2md docs/jsdoc.js > docs/jsdoc.md",
     "deploy:test": "npm run build && npm run test"
   },
