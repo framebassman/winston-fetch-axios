@@ -1,5 +1,6 @@
 import Transport from 'winston-transport';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+import path from 'node:path';
 
 type TransportAuthType = 'bearer' | 'apikey' | 'basic' | 'custom' | 'none';
 type TransportMethod = 'POST' | 'PUT';
@@ -67,17 +68,7 @@ export class AxiosTransport extends Transport {
 
   async log(info: any, callback: () => void) {
     // Resolve the destination url.
-    let resolvedUrl = this.url;
-    if (this.path) {
-      let resolvedPath = this.path;
-      if (resolvedUrl.endsWith('/')) {
-        resolvedUrl = resolvedUrl.slice(0, -1);
-      }
-      if (!resolvedPath.startsWith('/')) {
-        resolvedPath = '/' + resolvedPath;
-      }
-      resolvedUrl = resolvedUrl + resolvedPath;
-    }
+    let resolvedUrl = path.join(this.url, String(this.path));
 
     // Add body addons to the request body if they exist.
     if (this.bodyAddons) {
@@ -133,18 +124,21 @@ export class AxiosTransport extends Transport {
     }
 
     // Send the request.
-    console.log('Send the request with the following config:');
-    console.log(axiosConfig);
-    console.log(JSON.stringify(axiosConfig));
+    console.debug('Send the request with the following config:');
+    console.debug(axiosConfig);
+    console.debug(JSON.stringify(axiosConfig));
 
     try {
-      // await this.axiosInstance.post(String(axiosConfig.url), axiosConfig.data, axiosConfig);
-      await this.axiosInstance(axiosConfig);
+      if (this.method === 'POST') {
+        await this.axiosInstance.post(resolvedUrl, axiosConfig.data, axiosConfig);
+      } else {
+        await this.axiosInstance.put(resolvedUrl, axiosConfig.data, axiosConfig);
+      }
       this.emit("logged", info);
     } catch (err) {
       this.emit("error", err);
     } finally {
-      console.log('Callback should be fired here');
+      console.debug('Callback should be fired here');
       callback();
     }
   }
