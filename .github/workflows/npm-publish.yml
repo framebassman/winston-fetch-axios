@@ -3,11 +3,10 @@
 
 name: Node.js Package
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: ['master']
+    branches:
+    - master
 
 jobs:
   build:
@@ -60,7 +59,7 @@ jobs:
           cd test
           npm install
           cd ../
-      - run: jq '.version="${{ steps.bump-semver.outputs.new_version }}"' package.json > package.json
+      - run: jq '.version="${{ steps.bump-semver.outputs.new_version }}"' package.json > package.json.tmp && mv package.json.tmp package.json
       - run: npm run build
       - uses: actions-ecosystem/action-push-tag@v1
         with:
