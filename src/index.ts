@@ -1,6 +1,5 @@
 import Transport from 'winston-transport';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
-import path from 'node:path';
 
 type TransportAuthType = 'bearer' | 'apikey' | 'basic' | 'custom' | 'none';
 type TransportMethod = 'POST' | 'PUT';
@@ -67,9 +66,6 @@ export class AxiosTransport extends Transport {
   }
 
   async log(info: any, callback: () => void) {
-    // Resolve the destination url.
-    let resolvedUrl = path.join(this.url, String(this.path));
-
     // Add body addons to the request body if they exist.
     if (this.bodyAddons) {
       info = { ...info, ...this.bodyAddons };
@@ -82,7 +78,8 @@ export class AxiosTransport extends Transport {
     // Create the request config.
     let axiosConfig: AxiosRequestConfig<any> = {
       method: this.method,
-      url: resolvedUrl,
+      baseURL: this.url,
+      url: this.path,
       data: info,
     };
 
@@ -132,11 +129,7 @@ export class AxiosTransport extends Transport {
 
     try {
       let resp;
-      if (this.method === 'POST') {
-        resp = await this.axiosInstance.post(resolvedUrl, axiosConfig.data, axiosConfig);
-      } else {
-        resp = await this.axiosInstance.put(resolvedUrl, axiosConfig.data, axiosConfig);
-      }
+      resp = await this.axiosInstance.request(axiosConfig);
       console.log('Response was: ');
       console.log(resp);
       this.emit("logged", info);
