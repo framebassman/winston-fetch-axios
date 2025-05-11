@@ -74,18 +74,10 @@ export class AxiosTransport extends Transport {
     if (this.bodyAddons) {
       info = { ...info, ...this.bodyAddons };
     }
-    if (info.timestamp === undefined) {
-      Object.defineProperty(info, '@timestamp', {
-        value: new Date().toISOString(),
-      });
-      Object.defineProperty(info, 'timestamp', {
-        value: new Date().toISOString(),
-      });
-    } else {
-      Object.defineProperty(info, '@timestamp', {
-        value: info.timestamp,
-      });
-    }
+    Object.defineProperty(info, '@timestamp', {
+      value: new Date().toISOString(),
+    });
+    info.timestamp = new Date().toISOString();
 
     // Create the request config.
     let axiosConfig: AxiosRequestConfig<any> = {
@@ -139,11 +131,14 @@ export class AxiosTransport extends Transport {
     console.debug(JSON.stringify(axiosConfig));
 
     try {
+      let resp;
       if (this.method === 'POST') {
-        await this.axiosInstance.post(resolvedUrl, axiosConfig.data, axiosConfig);
+        resp = await this.axiosInstance.post(resolvedUrl, axiosConfig.data, axiosConfig);
       } else {
-        await this.axiosInstance.put(resolvedUrl, axiosConfig.data, axiosConfig);
+        resp = await this.axiosInstance.put(resolvedUrl, axiosConfig.data, axiosConfig);
       }
+      console.log('Response was: ');
+      console.log(resp);
       this.emit("logged", info);
     } catch (err) {
       this.emit("error", err);
