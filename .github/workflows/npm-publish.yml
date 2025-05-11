@@ -60,7 +60,7 @@ jobs:
           cd test
           npm install
           cd ../
-      - run: jq '.version="${{ steps.bump-semver.outputs.new_version }}"' package.json
+      - run: jq '.version="${{ steps.bump-semver.outputs.new_version }}"' package.json > package.json
       - run: npm run build
       - uses: actions-ecosystem/action-push-tag@v1
         with:
