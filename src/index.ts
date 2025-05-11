@@ -74,8 +74,18 @@ export class AxiosTransport extends Transport {
     if (this.bodyAddons) {
       info = { ...info, ...this.bodyAddons };
     }
-    info['@timestamp'] = info.timestamp;
-    delete info.timestamp;
+    if (info.timestamp === undefined) {
+      Object.defineProperty(info, '@timestamp', {
+        value: new Date().toISOString(),
+      });
+      Object.defineProperty(info, 'timestamp', {
+        value: new Date().toISOString(),
+      });
+    } else {
+      Object.defineProperty(info, '@timestamp', {
+        value: info.timestamp,
+      });
+    }
 
     // Create the request config.
     let axiosConfig: AxiosRequestConfig<any> = {
